@@ -20,4 +20,6 @@ In game, open the map-mode selector and look in the **Economy** category.
 
 The mod is save-safe and changes no gameplay data, note that it however changes the checksum. 
 
-Let me know if you want to add some more feature.
+## Help needed
+
+I want to add the RGO icons on the map too but was not able to, if anyone has any idea how this can be done, please let me know.
