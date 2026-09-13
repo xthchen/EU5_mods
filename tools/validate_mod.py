@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Dependency-free static checks for the Large Settlements EU5 mod."""
+"""Dependency-free static checks for the Potential Cities EU5 mod."""
 
 from __future__ import annotations
 
@@ -74,7 +74,9 @@ def main() -> int:
         "location_rank ?= location_rank:town",
         "small_map_names = raw_material",
         "medium_map_names = raw_material",
+        "market_marker = yes",
         "raw_goods_marker = yes",
+        "category = economy",
         "LocationPopulationChanged",
         "LocationOwnerChanged",
     )
@@ -83,6 +85,8 @@ def main() -> int:
             errors.append(f"map-mode script is missing: {token}")
     if "population >= 30" in script:
         errors.append("threshold must be strictly greater than 30, not greater than or equal")
+    if "all = no" in script:
+        errors.append("map markers must use an explicit allow-list so raw-goods icons remain visible")
 
     localization = LOCALIZATION.read_text(encoding="utf-8-sig")
     if not localization.startswith("l_english:\n"):

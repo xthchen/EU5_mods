@@ -1,5 +1,5 @@
 ﻿l_english:
- mapmode_large_settlements_name: "Large Settlements"
+ mapmode_large_settlements_name: "Potential Cities"
  MAPMODE_LARGE_SETTLEMENTS: "#T $mapmode_large_settlements_name$#!\nHighlights your towns and rural [locations|e] with a population strictly greater than 30,000. Each location's [rgo|e] is overlaid like in the Raw Materials map mode."
 
  large_settlements_rural_legend: "Rural settlement above 30,000"

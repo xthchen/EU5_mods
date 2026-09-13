@@ -66,7 +66,7 @@ def build_thumbnail(icon: Image.Image) -> Image.Image:
 
     title_font = font(42, bold=True)
     subtitle_font = font(24)
-    title = "LARGE SETTLEMENTS"
+    title = "POTENTIAL CITIES"
     subtitle = "MAP MODE  •  30,000+"
     for text, y, face, color in [
         (title, 344, title_font, (245, 239, 220)),
