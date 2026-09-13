@@ -7,6 +7,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 
 ROOT = Path(__file__).resolve().parents[1]
+ASSETS = ROOT / "tools/assets"
 SCALE = 4
 
 
@@ -33,20 +34,14 @@ def build_icon() -> Image.Image:
     draw.arc((42, 42, size - 42, size - 42), 196, 340, fill=(66, 108, 126, 255), width=8)
     draw.arc((42, 42, size - 42, size - 42), 20, 164, fill=(66, 108, 126, 255), width=8)
 
-    # Rural house, colored like the rural-settlement map overlay.
-    rural = (44, 210, 145, 255)
-    draw.polygon([(92, 292), (180, 208), (268, 292)], fill=rural)
-    draw.rounded_rectangle((116, 282, 244, 386), radius=8, fill=rural)
-    draw.rectangle((170, 326, 202, 386), fill=(17, 31, 43, 255))
-
-    # Town skyline, colored like the town map overlay.
-    town = (255, 184, 56, 255)
-    draw.rectangle((270, 236, 320, 386), fill=town)
-    draw.rectangle((326, 188, 382, 386), fill=town)
-    draw.rectangle((388, 264, 430, 386), fill=town)
-    draw.polygon([(326, 188), (354, 142), (382, 188)], fill=town)
-    for x, y in [(284, 270), (284, 316), (342, 228), (342, 278), (400, 298), (400, 338)]:
-        draw.rectangle((x, y, x + 18, y + 22), fill=(17, 31, 43, 255))
+    # Use EU5's canonical location-rank symbols rather than custom buildings.
+    rank_icon_size = 168
+    rural_icon = Image.open(ASSETS / "rural_settlement.png").convert("RGBA")
+    town_icon = Image.open(ASSETS / "town.png").convert("RGBA")
+    rural_icon = rural_icon.resize((rank_icon_size, rank_icon_size), Image.Resampling.LANCZOS)
+    town_icon = town_icon.resize((rank_icon_size, rank_icon_size), Image.Resampling.LANCZOS)
+    image.alpha_composite(rural_icon, (84, 206))
+    image.alpha_composite(town_icon, (260, 206))
 
     # Threshold ribbon.
     draw.rounded_rectangle((106, 390, 406, 466), radius=28, fill=(238, 241, 238, 255), outline=(17, 31, 43, 255), width=8)

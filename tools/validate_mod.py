@@ -16,6 +16,8 @@ LOCALIZATION = ROOT / "main_menu/localization/english/large_settlements_l_englis
 METADATA = ROOT / ".metadata/metadata.json"
 ICON = ROOT / "main_menu/gfx/interface/icons/map_modes/large_settlements.dds"
 THUMBNAIL = ROOT / ".metadata/thumbnail.png"
+RURAL_RANK_ICON = ROOT / "tools/assets/rural_settlement.png"
+TOWN_RANK_ICON = ROOT / "tools/assets/town.png"
 BOM = b"\xef\xbb\xbf"
 
 
@@ -126,6 +128,18 @@ def main() -> int:
         width, height = struct.unpack_from(">II", png, 16)
         if (width, height) != (512, 512):
             errors.append(f"launcher thumbnail must be 512x512, got {width}x{height}")
+
+    for label, path in (
+        ("rural-settlement rank icon", RURAL_RANK_ICON),
+        ("town rank icon", TOWN_RANK_ICON),
+    ):
+        rank_icon = path.read_bytes() if path.exists() else b""
+        if not rank_icon.startswith(b"\x89PNG\r\n\x1a\n"):
+            errors.append(f"{label} is missing or is not a PNG file")
+        else:
+            width, height = struct.unpack_from(">II", rank_icon, 16)
+            if (width, height) != (100, 100):
+                errors.append(f"{label} must be 100x100, got {width}x{height}")
 
     if errors:
         for error in errors:
