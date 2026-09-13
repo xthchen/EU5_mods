@@ -4,16 +4,12 @@
 large_settlements = {
 	map_color = {
 		if = {
-			limit = { is_land = no }
-			value = define:NMapColors|WATER_MAP_COLOR
-		}
-		else_if = {
 			limit = {
 				owner ?= scope:actor
 				population > 30
 				location_rank ?= location_rank:rural_settlement
 			}
-			value = rgb { 44 210 145 }
+			value = color_rank_county
 		}
 		else_if = {
 			limit = {
@@ -21,36 +17,43 @@ large_settlements = {
 				population > 30
 				location_rank ?= location_rank:town
 			}
-			value = rgb { 255 184 56 }
-		}
-		else_if = {
-			limit = { owner ?= scope:actor }
-			value = rgb { 62 76 88 }
-		}
-		else_if = {
-			limit = { has_owner = yes }
-			value = rgb { 38 43 49 }
+			value = color_rank_duchy
 		}
 		else = {
-			value = rgb { 26 30 34 }
+			value = define:NMapColors|TRANSPARENT_COLOR
+		}
+	}
+
+	# Mirror the Location Rank map mode's upgrade stripes. The secondary color
+	# is the color of the rank the highlighted location can become.
+	secondary_map_color = {
+		if = {
+			limit = {
+				owner ?= scope:actor
+				population > 30
+				location_rank ?= location_rank:rural_settlement
+				can_become_rank = location_rank:town
+			}
+			value = color_rank_duchy
+		}
+		else_if = {
+			limit = {
+				owner ?= scope:actor
+				population > 30
+				location_rank ?= location_rank:town
+				can_become_rank = location_rank:city
+			}
+			value = color_rank_kingdom
 		}
 	}
 
 	legend_key = {
 		desc = "large_settlements_rural_legend"
-		color = rgb { 44 210 145 }
+		color = color_rank_county
 	}
 	legend_key = {
 		desc = "large_settlements_town_legend"
-		color = rgb { 255 184 56 }
-	}
-	legend_key = {
-		desc = "large_settlements_other_owned_legend"
-		color = rgb { 62 76 88 }
-	}
-	legend_key = {
-		desc = "large_settlements_foreign_legend"
-		color = rgb { 38 43 49 }
+		color = color_rank_duchy
 	}
 
 	tooltip_key = {
@@ -97,7 +100,7 @@ large_settlements = {
 	medium_tooltip_context = location
 	large_tooltip_context = location
 
-	fill_in_impassable = yes
+	fill_in_impassable = no
 	enable_snow = no
 	flatmap_behaviour = always
 	use_fow = no

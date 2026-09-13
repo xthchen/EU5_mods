@@ -4,8 +4,6 @@
 
  large_settlements_rural_legend: "Rural settlement above 30,000"
  large_settlements_town_legend: "Town above 30,000"
- large_settlements_other_owned_legend: "Your other locations"
- large_settlements_foreign_legend: "Foreign locations"
 
  MAPMODE_LARGE_SETTLEMENTS_TT_RURAL: "#T [ROOT.GetLocation.GetName]#!\nThis is one of your rural settlements with more than 30,000 people."
  MAPMODE_LARGE_SETTLEMENTS_TT_TOWN: "#T [ROOT.GetLocation.GetName]#!\nThis is one of your towns with more than 30,000 people."

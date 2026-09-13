@@ -74,6 +74,14 @@ def main() -> int:
         "population > 30",
         "location_rank ?= location_rank:rural_settlement",
         "location_rank ?= location_rank:town",
+        "value = color_rank_county",
+        "secondary_map_color = {",
+        "can_become_rank = location_rank:town",
+        "can_become_rank = location_rank:city",
+        "value = color_rank_duchy",
+        "value = color_rank_kingdom",
+        "value = define:NMapColors|TRANSPARENT_COLOR",
+        "fill_in_impassable = no",
         "small_map_names = raw_material",
         "medium_map_names = raw_material",
         "market_marker = yes",
@@ -89,6 +97,17 @@ def main() -> int:
         errors.append("threshold must be strictly greater than 30, not greater than or equal")
     if "all = no" in script:
         errors.append("map markers must use an explicit allow-list so raw-goods icons remain visible")
+    if script.count("value = color_rank_duchy") < 2:
+        errors.append("town rank color must be used for both towns and rural-to-town stripes")
+    for obsolete_color in (
+        "rgb { 44 210 145 }",
+        "rgb { 255 184 56 }",
+        "rgb { 62 76 88 }",
+        "rgb { 38 43 49 }",
+        "rgb { 26 30 34 }",
+    ):
+        if obsolete_color in script:
+            errors.append(f"obsolete custom map color remains: {obsolete_color}")
 
     localization = LOCALIZATION.read_text(encoding="utf-8-sig")
     if not localization.startswith("l_english:\n"):
@@ -101,8 +120,6 @@ def main() -> int:
         "MAPMODE_LARGE_SETTLEMENTS",
         "large_settlements_rural_legend",
         "large_settlements_town_legend",
-        "large_settlements_other_owned_legend",
-        "large_settlements_foreign_legend",
         "MAPMODE_LARGE_SETTLEMENTS_TT_RURAL",
         "MAPMODE_LARGE_SETTLEMENTS_TT_TOWN",
         "MAPMODE_LARGE_SETTLEMENTS_TT_OTHER_OWNED",
