@@ -24,15 +24,17 @@ large_settlements = {
 		}
 	}
 
-	# Mirror the Location Rank map mode's upgrade stripes. The secondary color
-	# is the color of the rank the highlighted location can become.
+	# Only add the next-rank color as stripes when this individual qualifying
+	# location has a civil construction and its next rank is already unavailable.
 	secondary_map_color = {
 		if = {
 			limit = {
 				owner ?= scope:actor
 				population > 30
 				location_rank ?= location_rank:rural_settlement
-				can_become_rank = location_rank:town
+				modifier:cannot_upgrade_location = no
+				num_civil_constructions > 0
+				NOT = { can_become_rank = location_rank:town }
 			}
 			value = color_rank_duchy
 		}
@@ -41,7 +43,9 @@ large_settlements = {
 				owner ?= scope:actor
 				population > 30
 				location_rank ?= location_rank:town
-				can_become_rank = location_rank:city
+				modifier:cannot_upgrade_location = no
+				num_civil_constructions > 0
+				NOT = { can_become_rank = location_rank:city }
 			}
 			value = color_rank_kingdom
 		}
