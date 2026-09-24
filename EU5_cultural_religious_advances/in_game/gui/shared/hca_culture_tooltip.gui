@@ -27,7 +27,7 @@ template hca_scrollable_culture_list_tooltip {
 
 		blockoverride "tooltip_content" {
 			TooltipScrolledContentSection = {
-				blockoverride "block_scrollarea" { maximumsize = { -1 520 } }
+				blockoverride "block_scrollarea" { maximumsize = { -1 700 } }
 				blockoverride "scrollarea_content" {
 					TooltipContentSection = {
 						set_parent_dimension_to_minimum = height

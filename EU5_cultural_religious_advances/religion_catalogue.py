@@ -116,7 +116,7 @@ def wrap_religion_body(source):
     body = source[opening + 1:end - 1]
     wrapped = (
         marker + '\n\t\t\tTooltipScrolledContentSection = {'
-        '\n\t\t\t\tblockoverride "block_scrollarea" { maximumsize = { -1 520 } }'
+        '\n\t\t\t\tblockoverride "block_scrollarea" { maximumsize = { -1 700 } }'
         '\n\t\t\t\tblockoverride "scrollarea_content" {'
         '\n\t\t\t\t\tTooltipContentSection = {'
         '\n\t\t\t\t\t\tset_parent_dimension_to_minimum = height'

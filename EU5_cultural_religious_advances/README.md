@@ -6,7 +6,8 @@ Currently, the only way to check them is when you select countries at the start 
 ## Features
 - This mod provides such detail when you go to your culture/religion tooltip under the culture/religion breakdown tab. This includes all culture/religion, within/outside of your country. 
 - The embedded tooltip is also present for each of the advances so you can see what each of them do. The screenshots should give you quite a good idea. Clicking the ones not currently in your tech tree won't bring you to it though.
-- Note that some tooltips (especially religious ones like catholic) can become too long, it's scrollable.
+- If you don't see the additional tooltip, note that the tooltips are **scrollable**, as otherwise they can become too long (especially religious ones like catholic).
+- The tooltips can have multiple levels of scrolling, confusing I know, so beware where your mouse is when scrolling. 
 - Note that the tooltip only shows unique advances available to this culture/religion, without any further requirements. Specific unique advances that require you to be of specific culture AND religion for example, will not be shown.
 - The current tag you are playing as is also not considered. Specific advances requiring a specific culture AND tag for example, will also not be shown, even if you're playing as the said tag.
 
@@ -27,7 +28,8 @@ python3 build_catalogue.py "/path/to/Europa Universalis V"
 - Changes the checksum.
 
 ## Potential Issue
-In age VI, there is an advance that unlocks the **Unify Culture Group** cabinet action, which, well, unifies your culture group. This creates a new culture that inherits the unique advances of your previous main culture. The list of matching advance does not update this, so I tried a workaround which may or may not update this. Let me know if you actually went through this and what happened.
+- In age VI, there is an advance that unlocks the **Unify Culture Group** cabinet action, which, well, unifies your culture group. This creates a new culture that inherits the unique advances of your previous main culture. The list of matching advance does not update this, so I tried a workaround which may or may not update this. Let me know if you actually went through this and what happened.
+- If you set EU5 to very low resolution, some tooltip may still be too long, I don't know how to manage this adaptively.
 
 ## Feedback
 If you encounter an issue or have a suggestion, please leave a comment on the Workshop page.
