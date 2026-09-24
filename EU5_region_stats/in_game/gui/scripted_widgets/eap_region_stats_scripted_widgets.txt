@@ -1,0 +1,3 @@
+﻿# Lifecycle pattern adapted from Community Mod Framework under the ISC license.
+# See LICENSES/CMF-ISC.txt.
+gui/eap_region_stats/eap_region_stats_load_caller.gui = eap_region_stats_load_caller

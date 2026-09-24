@@ -1,0 +1,17 @@
+{
+    "name": "Region Stats",
+    "id": "hchen.region_stats",
+    "version": "1.1.0",
+    "game_id": "eu5",
+    "supported_game_version": "1.3.*",
+    "short_description": "Adds Region Population, Wealth, and Development map modes with ownership-independent totals.",
+    "tags": [
+        "Map",
+        "User Interface",
+        "Utilities",
+        "Trade and Economics"
+    ],
+    "picture": "thumbnail.png",
+    "relationships": [],
+    "game_custom_data": {}
+}

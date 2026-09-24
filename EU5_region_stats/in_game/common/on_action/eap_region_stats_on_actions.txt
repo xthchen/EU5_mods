@@ -1,0 +1,104 @@
+# Initialize the regional cache for new games, refresh dynamic data on save load,
+# then refresh it every April. The invariant location count is scanned at new-game
+# initialization and save load, but is not recomputed by April refreshes.
+# A delayed retry handles game-start ordering if regions were not ready yet.
+# A standalone invisible scripted widget dispatches the save-load callback.
+# Delegated on-actions keep these hooks additive with vanilla and other mods.
+on_game_start = {
+	on_actions = {
+		eap_region_stats_on_game_start
+		delay = { days = 1 }
+		eap_region_stats_on_game_start_retry
+	}
+}
+
+weather_monthly_pulse = {
+	on_actions = {
+		eap_region_stats_monthly_pulse
+	}
+}
+
+eap_region_stats_on_game_start = {
+	effect = {
+		# The post-lobby widget consumes this flag to distinguish a new game
+		# from a loaded save without requiring an external lifecycle hook.
+		set_global_variable = { name = eap_region_stats_pending_new_game value = yes }
+		eap_refresh_region_stats_rankings = yes
+	}
+}
+
+eap_region_stats_on_game_load = {
+	effect = {
+		# A load refresh should not move the fixed April schedule. Preserve the
+		# previous annual marker unless this load itself occurs during April.
+		if = {
+			limit = { has_global_variable = eap_region_stats_last_refresh_year }
+			set_global_variable = {
+				name = eap_region_stats_pre_load_refresh_year
+				value = global_var:eap_region_stats_last_refresh_year
+			}
+		}
+
+		# Rebuild the tooltip's per-region land-location count on save load. The
+		# shared refresh normally skips this invariant cache while its marker exists.
+		remove_global_variable = eap_region_stats_location_counts_ready
+		eap_refresh_region_stats_rankings = yes
+
+		if = {
+			limit = {
+				has_global_variable = eap_region_stats_pre_load_refresh_year
+				NOT = { current_month = 4 }
+			}
+			set_global_variable = {
+				name = eap_region_stats_last_refresh_year
+				value = global_var:eap_region_stats_pre_load_refresh_year
+			}
+		}
+		remove_global_variable = eap_region_stats_pre_load_refresh_year
+	}
+}
+
+eap_region_stats_on_game_start_retry = {
+	trigger = {
+		OR = {
+			NOT = { has_global_variable = eap_region_stats_cache_ready }
+			NOT = { has_global_variable = eap_region_stats_location_counts_ready }
+			NOT = { has_global_variable = eap_region_stats_cache_version }
+			AND = {
+				has_global_variable = eap_region_stats_cache_version
+				global_var:eap_region_stats_cache_version < 3
+			}
+			NOT = { has_global_variable = eap_region_stats_last_refresh_year }
+		}
+	}
+	effect = {
+		eap_refresh_region_stats_rankings = yes
+	}
+}
+
+eap_region_stats_monthly_pulse = {
+	effect = {
+		if = {
+			limit = {
+				OR = {
+					NOT = { has_global_variable = eap_region_stats_cache_ready }
+					NOT = { has_global_variable = eap_region_stats_location_counts_ready }
+					NOT = { has_global_variable = eap_region_stats_cache_version }
+					AND = {
+						has_global_variable = eap_region_stats_cache_version
+						global_var:eap_region_stats_cache_version < 3
+					}
+					NOT = { has_global_variable = eap_region_stats_last_refresh_year }
+					AND = {
+						current_month = 4
+						current_year >= {
+							value = global_var:eap_region_stats_last_refresh_year
+							add = 1
+						}
+					}
+				}
+			}
+			eap_refresh_region_stats_rankings = yes
+		}
+	}
+}

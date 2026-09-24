@@ -1,0 +1,13 @@
+﻿l_english:
+ mapmode_roman_borders_name: "Roman Borders"
+ MAPMODE_ROMAN_BORDERS: "#T $mapmode_roman_borders_name$#!\nShows the locations covered by the 'Restore Roman Borders' CB, and the requirements to form the Roman Empire."
+
+ roman_borders_cb_only_legend: "Purple: Restore Roman Borders CB only"
+ roman_borders_formation_only_legend: "Gold: Roman Empire formation only"
+ roman_borders_overlap_legend: "Purple-gold stripes: included in both"
+
+ MAPMODE_ROMAN_BORDERS_TT_OVERLAP: "#T [ROOT.GetLocation.GetName]#!\nThis location is included in both the Restore Roman Borders CB and the formation requirements for the [ShowFormableCountryName('ROM_f')]."
+ MAPMODE_ROMAN_BORDERS_TT_CB_ONLY: "#T [ROOT.GetLocation.GetName]#!\nThis location is included only in the Restore Roman Borders CB."
+ MAPMODE_ROMAN_BORDERS_TT_FORMATION_ONLY: "#T [ROOT.GetLocation.GetName]#!\nThis location is required only for forming the [ShowFormableCountryName('ROM_f')]."
+ MAPMODE_ROMAN_BORDERS_TT_OUTSIDE: "#T [ROOT.GetLocation.GetName]#!\nThis location is included in neither the Restore Roman Borders CB nor the formation requirements for the [ShowFormableCountryName('ROM_f')]."
+ MAPMODE_ROMAN_BORDERS_TT_WATER: "This is a sea zone."

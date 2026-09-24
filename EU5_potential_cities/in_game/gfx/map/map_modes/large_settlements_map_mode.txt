@@ -1,0 +1,170 @@
+﻿# Highlights only the viewing country's rural settlements and towns whose
+# population is strictly greater than 30 (EU5 population values are thousands).
+
+large_settlements = {
+	map_color = {
+		if = {
+			limit = {
+				owner ?= scope:actor
+				population > 30
+				location_rank ?= location_rank:rural_settlement
+			}
+			value = color_rank_county
+		}
+		else_if = {
+			limit = {
+				owner ?= scope:actor
+				population > 30
+				location_rank ?= location_rank:town
+			}
+			value = color_rank_duchy
+		}
+		else = {
+			value = define:NMapColors|TRANSPARENT_COLOR
+		}
+	}
+
+	# Only add the next-rank color as stripes when this individual qualifying
+	# location has a civil construction and its next rank is already unavailable.
+	secondary_map_color = {
+		if = {
+			limit = {
+				owner ?= scope:actor
+				population > 30
+				location_rank ?= location_rank:rural_settlement
+				modifier:cannot_upgrade_location = no
+				num_civil_constructions > 0
+				NOT = { can_become_rank = location_rank:town }
+			}
+			value = color_rank_duchy
+		}
+		else_if = {
+			limit = {
+				owner ?= scope:actor
+				population > 30
+				location_rank ?= location_rank:town
+				modifier:cannot_upgrade_location = no
+				num_civil_constructions > 0
+				NOT = { can_become_rank = location_rank:city }
+			}
+			value = color_rank_kingdom
+		}
+	}
+
+	legend_key = {
+		desc = "large_settlements_rural_legend"
+		color = color_rank_county
+	}
+	legend_key = {
+		desc = "large_settlements_town_legend"
+		color = color_rank_duchy
+	}
+
+	tooltip_key = {
+		if = {
+			limit = { is_land = no }
+			value = MAPMODE_LARGE_SETTLEMENTS_TT_WATER
+		}
+		else_if = {
+			limit = {
+				owner ?= scope:actor
+				population > 30
+				location_rank ?= location_rank:rural_settlement
+				modifier:cannot_upgrade_location = no
+				num_civil_constructions > 0
+				NOT = { can_become_rank = location_rank:town }
+			}
+			value = MAPMODE_LARGE_SETTLEMENTS_TT_RURAL_UPGRADING
+		}
+		else_if = {
+			limit = {
+				owner ?= scope:actor
+				population > 30
+				location_rank ?= location_rank:town
+				modifier:cannot_upgrade_location = no
+				num_civil_constructions > 0
+				NOT = { can_become_rank = location_rank:city }
+			}
+			value = MAPMODE_LARGE_SETTLEMENTS_TT_TOWN_UPGRADING
+		}
+		else_if = {
+			limit = {
+				owner ?= scope:actor
+				population > 30
+				location_rank ?= location_rank:rural_settlement
+			}
+			value = MAPMODE_LARGE_SETTLEMENTS_TT_RURAL
+		}
+		else_if = {
+			limit = {
+				owner ?= scope:actor
+				population > 30
+				location_rank ?= location_rank:town
+			}
+			value = MAPMODE_LARGE_SETTLEMENTS_TT_TOWN
+		}
+		else_if = {
+			limit = { owner ?= scope:actor }
+			value = MAPMODE_LARGE_SETTLEMENTS_TT_OTHER_OWNED
+		}
+		else_if = {
+			limit = { has_owner = yes }
+			value = MAPMODE_LARGE_SETTLEMENTS_TT_FOREIGN
+		}
+		else = {
+			value = MAPMODE_LARGE_SETTLEMENTS_TT_UNOWNED
+		}
+	}
+
+	# Match the Raw Materials map mode at close and medium zoom so the local
+	# raw material remains readable on top of the settlement-status colors.
+	small_map_names = raw_material
+	medium_map_names = raw_material
+	large_map_names = country
+
+	small_tooltip_context = location
+	medium_tooltip_context = location
+	large_tooltip_context = location
+
+	fill_in_impassable = no
+	enable_snow = no
+	flatmap_behaviour = always
+	use_fow = no
+	allow_allocate_hotkey = yes
+	category = economy
+	index = 0
+
+	map_markers = {
+		fort_marker = no
+		port_marker = no
+		unit_marker = no
+		combat_marker = no
+		combat_imminent_marker = no
+		supply_depot_marker = no
+		market_marker = no
+		toll_marker = no
+		dynasty_marker = no
+		raw_goods_marker = yes
+	}
+
+	gradient_parameters = {
+		zoom_step = 2
+		gradient_alpha_inside = 1
+		gradient_alpha_outside = 1
+		gradient_width = 0.25
+		gradient_color_mult = 0.9
+		edge_width = 0
+		edge_sharpness = 0.01
+		edge_alpha = 0
+		edge_color_mult = 0
+		before_lighting_blend = 0.5
+		after_lighting_blend = 0.5
+	}
+
+	refresh_colors_on_selection_change = yes
+	color_refresh_counters = {
+		LocationPopulationChanged
+		LocationOwnerChanged
+		Month
+	}
+}

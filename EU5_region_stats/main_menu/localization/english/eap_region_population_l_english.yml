@@ -1,0 +1,36 @@
+﻿l_english:
+ mapmode_eap_region_population_name: "Region Population"
+ MAPMODE_EAP_REGION_POPULATION: "#T $mapmode_eap_region_population_name$#!\nColors every [region|e] by its total [population|e]."
+
+ EAP_REGION_POPULATION_TOOLTIP: "#T In region of [ROOT.GetLocation.GetRegion.GetName]#!\nTotal [population|e]: #V [ROOT.GetLocation.MakeScope.ScriptValue('eap_region_population_display_value')|2]M#!@population! (Rank #V [ROOT.GetLocation.MakeScope.ScriptValue('eap_region_population_world_rank')|0]/[ROOT.GetLocation.MakeScope.ScriptValue('eap_region_stats_world_rank_total')|0]#! in the world, #V [ROOT.GetLocation.MakeScope.ScriptValue('eap_region_population_world_share')|%2]#! of world total)\n\n#italic Includes all #V [ROOT.GetLocation.MakeScope.ScriptValue('eap_region_land_location_count')|0]#! locations in this region.#!"
+ EAP_REGION_POPULATION_TOOLTIP_WATER: "[ROOT.GetLocation.GetName] is not a land [location|e]."
+
+ mapmode_eap_region_wealth_name: "Region Wealth"
+ MAPMODE_EAP_REGION_WEALTH: "#T $mapmode_eap_region_wealth_name$#!\nColors every [region|e] by its total [wealth|e]."
+
+ EAP_REGION_WEALTH_TOOLTIP: "#T In region of [ROOT.GetLocation.GetRegion.GetName]#!\nTotal [wealth|e]: #V [ROOT.GetLocation.MakeScope.ScriptValue('eap_region_wealth_map_value')|2]#!@wealth! (Rank #V [ROOT.GetLocation.MakeScope.ScriptValue('eap_region_wealth_world_rank')|0]/[ROOT.GetLocation.MakeScope.ScriptValue('eap_region_stats_world_rank_total')|0]#! in the world, #V [ROOT.GetLocation.MakeScope.ScriptValue('eap_region_wealth_world_share')|%2]#! of world total)\n\n#italic Includes all #V [ROOT.GetLocation.MakeScope.ScriptValue('eap_region_land_location_count')|0]#! locations in this region.#!"
+ EAP_REGION_WEALTH_TOOLTIP_WATER: "[ROOT.GetLocation.GetName] is not a land [location|e]."
+
+ mapmode_eap_region_development_name: "Region Development"
+ MAPMODE_EAP_REGION_DEVELOPMENT: "#T $mapmode_eap_region_development_name$#!\nColors every [region|e] by its total [development|e]."
+
+ EAP_REGION_DEVELOPMENT_TOOLTIP: "#T In region of [ROOT.GetLocation.GetRegion.GetName]#!\nTotal [development|e]: #V [ROOT.GetLocation.MakeScope.ScriptValue('eap_region_development_map_value')|2]#!@development! (Rank #V [ROOT.GetLocation.MakeScope.ScriptValue('eap_region_development_world_rank')|0]/[ROOT.GetLocation.MakeScope.ScriptValue('eap_region_stats_world_rank_total')|0]#! in the world, #V [ROOT.GetLocation.MakeScope.ScriptValue('eap_region_development_world_share')|%2]#! of world total)\n\n#italic Includes all #V [ROOT.GetLocation.MakeScope.ScriptValue('eap_region_land_location_count')|0]#! locations in this region.#!"
+ EAP_REGION_DEVELOPMENT_TOOLTIP_WATER: "[ROOT.GetLocation.GetName] is not a land [location|e]."
+
+ EAP_REGION_POPULATION_LEGEND_ZERO: "Lowest-ranked region"
+ EAP_REGION_POPULATION_LEGEND_100K: "50th percentile"
+ EAP_REGION_POPULATION_LEGEND_1M: "75th percentile"
+ EAP_REGION_POPULATION_LEGEND_10M: "90th percentile"
+ EAP_REGION_POPULATION_LEGEND_100M: "Highest-ranked region"
+
+ EAP_REGION_WEALTH_LEGEND_ZERO: "Lowest-ranked region"
+ EAP_REGION_WEALTH_LEGEND_10: "50th percentile"
+ EAP_REGION_WEALTH_LEGEND_100: "75th percentile"
+ EAP_REGION_WEALTH_LEGEND_1K: "90th percentile"
+ EAP_REGION_WEALTH_LEGEND_10K: "Highest-ranked region"
+
+ EAP_REGION_DEVELOPMENT_LEGEND_ZERO: "Lowest-ranked region"
+ EAP_REGION_DEVELOPMENT_LEGEND_100: "50th percentile"
+ EAP_REGION_DEVELOPMENT_LEGEND_500: "75th percentile"
+ EAP_REGION_DEVELOPMENT_LEGEND_2K: "90th percentile"
+ EAP_REGION_DEVELOPMENT_LEGEND_10K: "Highest-ranked region"

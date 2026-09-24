@@ -1,0 +1,225 @@
+# Refreshes all regional totals, world totals, ranks, and percentile thresholds.
+# Regions cannot own variables in EU5, so one land location per region acts as a
+# sortable anchor. The completed values are then copied to every land location
+# in that region, keeping map colors and tooltips on cheap direct cache reads.
+eap_refresh_region_stats_rankings = {
+	# Do not expose a partially rebuilt cache.
+	remove_global_variable = eap_region_stats_cache_ready
+	remove_global_variable = eap_region_stats_cache_version
+	remove_global_variable = eap_region_stats_last_refresh_year
+	clear_global_variable_list = eap_region_stats_anchors
+
+	set_global_variable = { name = eap_region_stats_world_population value = 0 }
+	set_global_variable = { name = eap_region_stats_world_wealth value = 0 }
+	set_global_variable = { name = eap_region_stats_world_development value = 0 }
+	set_global_variable = { name = eap_region_stats_region_count value = 0 }
+
+	# Calculate each regional aggregate once and store it on one location that can
+	# legally own persistent variables. Only these 77-ish anchors are sorted.
+	every_region = {
+		limit = {
+			any_location_in_region = { is_land = yes }
+		}
+
+		set_local_variable = { name = eap_region_stats_work_population value = population }
+		set_local_variable = { name = eap_region_stats_work_wealth value = eap_region_total_wealth }
+		set_local_variable = { name = eap_region_stats_work_development value = eap_region_total_development }
+
+		change_global_variable = {
+			name = eap_region_stats_world_population
+			add = local_var:eap_region_stats_work_population
+		}
+		change_global_variable = {
+			name = eap_region_stats_world_wealth
+			add = local_var:eap_region_stats_work_wealth
+		}
+		change_global_variable = {
+			name = eap_region_stats_world_development
+			add = local_var:eap_region_stats_work_development
+		}
+
+		random_location_in_region = {
+			limit = { is_land = yes }
+			set_variable = {
+				name = eap_region_stats_cached_population
+				value = local_var:eap_region_stats_work_population
+			}
+			set_variable = {
+				name = eap_region_stats_cached_wealth
+				value = local_var:eap_region_stats_work_wealth
+			}
+			set_variable = {
+				name = eap_region_stats_cached_development
+				value = local_var:eap_region_stats_work_development
+			}
+			add_to_global_variable_list = {
+				name = eap_region_stats_anchors
+				target = this
+			}
+		}
+
+		change_global_variable = { name = eap_region_stats_region_count add = 1 }
+	}
+
+	if = {
+		limit = { global_var:eap_region_stats_region_count > 0 }
+		set_global_variable = {
+			name = eap_region_stats_rank_total
+			value = global_var:eap_region_stats_region_count
+		}
+
+		# ordered_in_global_list sorts descending. These ranks therefore select
+		# the 90th, 75th, and 50th percentiles; rank 1 supplies the maximum.
+		set_global_variable = {
+			name = eap_region_stats_rank_top_10
+			value = { value = global_var:eap_region_stats_region_count multiply = 0.10 ceiling = yes min = 1 }
+		}
+		set_global_variable = {
+			name = eap_region_stats_rank_top_25
+			value = { value = global_var:eap_region_stats_region_count multiply = 0.25 ceiling = yes min = 1 }
+		}
+		set_global_variable = {
+			name = eap_region_stats_rank_top_50
+			value = { value = global_var:eap_region_stats_region_count multiply = 0.50 ceiling = yes min = 1 }
+		}
+		set_global_variable = { name = eap_region_stats_rank_cursor value = 0 }
+		ordered_in_global_list = {
+			variable = eap_region_stats_anchors
+			order_by = var:eap_region_stats_cached_population
+			max = global_var:eap_region_stats_region_count
+			change_global_variable = { name = eap_region_stats_rank_cursor add = 1 }
+			set_variable = { name = eap_region_stats_cached_population_rank value = global_var:eap_region_stats_rank_cursor }
+			set_global_variable = { name = eap_region_population_threshold_p0 value = var:eap_region_stats_cached_population }
+			if = {
+				limit = { global_var:eap_region_stats_rank_cursor = 1 }
+				set_global_variable = { name = eap_region_population_threshold_p100 value = var:eap_region_stats_cached_population }
+			}
+			if = {
+				limit = { global_var:eap_region_stats_rank_cursor = global_var:eap_region_stats_rank_top_25 }
+				set_global_variable = { name = eap_region_population_threshold_p75 value = var:eap_region_stats_cached_population }
+			}
+			if = {
+				limit = { global_var:eap_region_stats_rank_cursor = global_var:eap_region_stats_rank_top_50 }
+				set_global_variable = { name = eap_region_population_threshold_p50 value = var:eap_region_stats_cached_population }
+			}
+			if = {
+				limit = { global_var:eap_region_stats_rank_cursor = global_var:eap_region_stats_rank_top_10 }
+				set_global_variable = { name = eap_region_population_threshold_p90 value = var:eap_region_stats_cached_population }
+			}
+		}
+
+		set_global_variable = { name = eap_region_stats_rank_cursor value = 0 }
+		ordered_in_global_list = {
+			variable = eap_region_stats_anchors
+			order_by = var:eap_region_stats_cached_wealth
+			max = global_var:eap_region_stats_region_count
+			change_global_variable = { name = eap_region_stats_rank_cursor add = 1 }
+			set_variable = { name = eap_region_stats_cached_wealth_rank value = global_var:eap_region_stats_rank_cursor }
+			set_global_variable = { name = eap_region_wealth_threshold_p0 value = var:eap_region_stats_cached_wealth }
+			if = {
+				limit = { global_var:eap_region_stats_rank_cursor = 1 }
+				set_global_variable = { name = eap_region_wealth_threshold_p100 value = var:eap_region_stats_cached_wealth }
+			}
+			if = {
+				limit = { global_var:eap_region_stats_rank_cursor = global_var:eap_region_stats_rank_top_25 }
+				set_global_variable = { name = eap_region_wealth_threshold_p75 value = var:eap_region_stats_cached_wealth }
+			}
+			if = {
+				limit = { global_var:eap_region_stats_rank_cursor = global_var:eap_region_stats_rank_top_50 }
+				set_global_variable = { name = eap_region_wealth_threshold_p50 value = var:eap_region_stats_cached_wealth }
+			}
+			if = {
+				limit = { global_var:eap_region_stats_rank_cursor = global_var:eap_region_stats_rank_top_10 }
+				set_global_variable = { name = eap_region_wealth_threshold_p90 value = var:eap_region_stats_cached_wealth }
+			}
+		}
+
+		set_global_variable = { name = eap_region_stats_rank_cursor value = 0 }
+		ordered_in_global_list = {
+			variable = eap_region_stats_anchors
+			order_by = var:eap_region_stats_cached_development
+			max = global_var:eap_region_stats_region_count
+			change_global_variable = { name = eap_region_stats_rank_cursor add = 1 }
+			set_variable = { name = eap_region_stats_cached_development_rank value = global_var:eap_region_stats_rank_cursor }
+			set_global_variable = { name = eap_region_development_threshold_p0 value = var:eap_region_stats_cached_development }
+			if = {
+				limit = { global_var:eap_region_stats_rank_cursor = 1 }
+				set_global_variable = { name = eap_region_development_threshold_p100 value = var:eap_region_stats_cached_development }
+			}
+			if = {
+				limit = { global_var:eap_region_stats_rank_cursor = global_var:eap_region_stats_rank_top_25 }
+				set_global_variable = { name = eap_region_development_threshold_p75 value = var:eap_region_stats_cached_development }
+			}
+			if = {
+				limit = { global_var:eap_region_stats_rank_cursor = global_var:eap_region_stats_rank_top_50 }
+				set_global_variable = { name = eap_region_development_threshold_p50 value = var:eap_region_stats_cached_development }
+			}
+			if = {
+				limit = { global_var:eap_region_stats_rank_cursor = global_var:eap_region_stats_rank_top_10 }
+				set_global_variable = { name = eap_region_development_threshold_p90 value = var:eap_region_stats_cached_development }
+			}
+		}
+
+		# Copy each anchor's completed totals and ranks to every land location in its
+		# region. Map rendering and tooltips then need only six local variable reads.
+		every_in_global_list = {
+			variable = eap_region_stats_anchors
+			set_local_variable = { name = eap_region_stats_work_population value = var:eap_region_stats_cached_population }
+			set_local_variable = { name = eap_region_stats_work_wealth value = var:eap_region_stats_cached_wealth }
+			set_local_variable = { name = eap_region_stats_work_development value = var:eap_region_stats_cached_development }
+			set_local_variable = { name = eap_region_stats_work_population_rank value = var:eap_region_stats_cached_population_rank }
+			set_local_variable = { name = eap_region_stats_work_wealth_rank value = var:eap_region_stats_cached_wealth_rank }
+			set_local_variable = { name = eap_region_stats_work_development_rank value = var:eap_region_stats_cached_development_rank }
+
+			region = {
+				every_location_in_region = {
+					limit = { is_land = yes }
+					set_variable = { name = eap_region_stats_cached_population value = local_var:eap_region_stats_work_population }
+					set_variable = { name = eap_region_stats_cached_wealth value = local_var:eap_region_stats_work_wealth }
+					set_variable = { name = eap_region_stats_cached_development value = local_var:eap_region_stats_work_development }
+					set_variable = { name = eap_region_stats_cached_population_rank value = local_var:eap_region_stats_work_population_rank }
+					set_variable = { name = eap_region_stats_cached_wealth_rank value = local_var:eap_region_stats_work_wealth_rank }
+					set_variable = { name = eap_region_stats_cached_development_rank value = local_var:eap_region_stats_work_development_rank }
+				}
+			}
+		}
+
+		# Geographic region membership is static. Initialize this tooltip-only count
+		# for a new game and rebuild it on save load, but skip later April refreshes.
+		if = {
+			limit = {
+				NOT = { has_global_variable = eap_region_stats_location_counts_ready }
+			}
+			every_in_global_list = {
+				variable = eap_region_stats_anchors
+				region = {
+					set_local_variable = { name = eap_region_stats_work_land_location_count value = eap_region_total_land_locations }
+					every_location_in_region = {
+						limit = { is_land = yes }
+						set_variable = { name = eap_region_stats_cached_land_location_count value = local_var:eap_region_stats_work_land_location_count }
+					}
+				}
+			}
+			set_global_variable = { name = eap_region_stats_location_counts_ready value = 1 }
+		}
+
+		# Only expose the cache after aggregation, sorting, and propagation finish.
+		set_global_variable = { name = eap_region_stats_last_refresh_year value = current_year }
+		set_global_variable = { name = eap_region_stats_cache_ready value = 1 }
+		set_global_variable = { name = eap_region_stats_cache_version value = 3 }
+	}
+
+	clear_global_variable_list = eap_region_stats_anchors
+	remove_global_variable = eap_region_stats_region_count
+	remove_global_variable = eap_region_stats_rank_cursor
+	remove_global_variable = eap_region_stats_rank_top_10
+	remove_global_variable = eap_region_stats_rank_top_25
+	remove_global_variable = eap_region_stats_rank_top_50
+	remove_local_variable = eap_region_stats_work_population
+	remove_local_variable = eap_region_stats_work_wealth
+	remove_local_variable = eap_region_stats_work_development
+	remove_local_variable = eap_region_stats_work_land_location_count
+	remove_local_variable = eap_region_stats_work_population_rank
+	remove_local_variable = eap_region_stats_work_wealth_rank
+	remove_local_variable = eap_region_stats_work_development_rank
+}

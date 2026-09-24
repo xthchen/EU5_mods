@@ -1,0 +1,19 @@
+﻿# Lifecycle pattern adapted from Community Mod Framework under the ISC license.
+# See LICENSES/CMF-ISC.txt.
+#
+# trigger_on_create runs when the country UI is created. Scripted GUI execution
+# reaches every client, so the host result is passed as an argument and checked
+# in script before the load callback is dispatched.
+
+widget = {
+	name = "eap_region_stats_load_caller"
+	size = { 0 0 }
+	datacontext = "[GetPlayer]"
+	visible = "[Country.IsValid]"
+
+	state = {
+		name = eap_region_stats_load_caller
+		trigger_on_create = yes
+		on_start = "[GetScriptedGui('eap_region_stats_load_caller').Execute(GuiScope.AddScope('eap_region_stats_is_host_client', MakeScopeBool(Or(Not(GameIsMultiplayer), IsHost))).End)]"
+	}
+}

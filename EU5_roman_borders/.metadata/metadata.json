@@ -1,0 +1,19 @@
+{
+	"name": "Roman Borders",
+	"id": "hchen.roman_borders",
+	"game_id": "eu5",
+	"version": "1.0.0",
+	"supported_game_version": "1.3.*",
+	"short_description": "Adds a Geography map mode comparing the Restore Roman Borders casus belli with the Roman Empire's formation locations.",
+	"tags": [
+		"Map",
+		"User Interface",
+		"Utilities"
+	],
+	"thumbnail": "thumbnail.png",
+	"picture": "thumbnail.png",
+	"relationships": [],
+	"game_custom_data": {
+		"multiplayer_synchronized": false
+	}
+}

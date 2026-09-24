@@ -1,0 +1,136 @@
+# Region Wealth map mode
+#
+# Uses annually cached rank thresholds and the vanilla Tax Base color anchors.
+
+eap_region_wealth = {
+	map_color = {
+		if = {
+			limit = { is_land = no }
+			value = define:NMapColors|WATER_MAP_COLOR
+		}
+		else_if = {
+				limit = { eap_region_wealth_map_value < eap_region_wealth_threshold_p50 }
+				lerp = {
+					min_color = define:NMapColors|MAP_COLOR_MIN
+					max_color = define:NMapColors|MAP_COLOR_LOW
+					factor = {
+						value = eap_region_wealth_map_value
+						subtract = eap_region_wealth_threshold_p0
+						divide = {
+							value = eap_region_wealth_threshold_p50
+							subtract = eap_region_wealth_threshold_p0
+							min = 0.01
+						}
+						min = 0
+						max = 1
+					}
+				}
+			}
+			else_if = {
+				limit = { eap_region_wealth_map_value < eap_region_wealth_threshold_p75 }
+				lerp = {
+					min_color = define:NMapColors|MAP_COLOR_LOW
+					max_color = define:NMapColors|MAP_COLOR_MID
+					factor = {
+						value = eap_region_wealth_map_value
+						subtract = eap_region_wealth_threshold_p50
+						divide = {
+							value = eap_region_wealth_threshold_p75
+							subtract = eap_region_wealth_threshold_p50
+							min = 0.01
+						}
+						min = 0
+						max = 1
+					}
+				}
+			}
+			else_if = {
+				limit = { eap_region_wealth_map_value < eap_region_wealth_threshold_p90 }
+				lerp = {
+					min_color = define:NMapColors|MAP_COLOR_MID
+					max_color = define:NMapColors|MAP_COLOR_HIGH
+					factor = {
+						value = eap_region_wealth_map_value
+						subtract = eap_region_wealth_threshold_p75
+						divide = {
+							value = eap_region_wealth_threshold_p90
+							subtract = eap_region_wealth_threshold_p75
+							min = 0.01
+						}
+						min = 0
+						max = 1
+					}
+				}
+			}
+			else_if = {
+				limit = { eap_region_wealth_map_value < eap_region_wealth_threshold_p100 }
+				lerp = {
+					min_color = define:NMapColors|MAP_COLOR_HIGH
+					max_color = define:NMapColors|MAP_COLOR_MAX
+					factor = {
+						value = eap_region_wealth_map_value
+						subtract = eap_region_wealth_threshold_p90
+						divide = {
+							value = eap_region_wealth_threshold_p100
+							subtract = eap_region_wealth_threshold_p90
+							min = 0.01
+						}
+						min = 0
+						max = 1
+					}
+				}
+			}
+			else = {
+				value = define:NMapColors|MAP_COLOR_MAX
+			}
+	}
+
+	legend_key = { desc = "EAP_REGION_WEALTH_LEGEND_ZERO" color = define:NMapColors|MAP_COLOR_MIN }
+	legend_key = { desc = "EAP_REGION_WEALTH_LEGEND_10" color = define:NMapColors|MAP_COLOR_LOW }
+	legend_key = { desc = "EAP_REGION_WEALTH_LEGEND_100" color = define:NMapColors|MAP_COLOR_MID }
+	legend_key = { desc = "EAP_REGION_WEALTH_LEGEND_1K" color = define:NMapColors|MAP_COLOR_HIGH }
+	legend_key = { desc = "EAP_REGION_WEALTH_LEGEND_10K" color = define:NMapColors|MAP_COLOR_MAX }
+
+	tooltip_key = {
+		if = {
+			limit = { is_land = yes }
+			value = EAP_REGION_WEALTH_TOOLTIP
+		}
+		else = {
+			value = EAP_REGION_WEALTH_TOOLTIP_WATER
+		}
+	}
+
+	small_tooltip_context = location
+	medium_tooltip_context = location
+	large_tooltip_context = location
+	small_map_names = location
+	medium_map_names = region
+	large_map_names = region
+
+	fill_in_impassable = yes
+	enable_snow = no
+	flatmap_behaviour = always
+	use_fow = no
+	map_markers = { all = no }
+
+	category = geography
+	index = 0
+
+	gradient_parameters = {
+		zoom_step = 2
+		gradient_alpha_inside = 1
+		gradient_alpha_outside = 1
+		gradient_width = 0.0375
+		gradient_color_mult = 0.9
+		edge_width = 0
+		edge_sharpness = 0.01
+		edge_alpha = 0
+		edge_color_mult = 0
+		before_lighting_blend = 0.5
+		after_lighting_blend = 0.5
+	}
+
+	color_refresh_counters = { Month }
+	color_and_names_refresh_counters = { }
+}

@@ -1,0 +1,5 @@
+# Expose the engine's location population-to-capacity ratio to localization.
+# The value is a fraction: 0.8 is displayed as 80% by the percentage formatter.
+near_capacity_location_population_percentage = {
+	value = location_population_percentage
+}

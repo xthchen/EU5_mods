@@ -1,0 +1,99 @@
+﻿# Compares the exact scripted geography used by the Restore Roman Borders casus
+# belli with the locations required by the general Roman Empire formable.
+
+roman_borders = {
+	map_color = {
+		if = {
+			limit = {
+				is_land = yes
+				is_in_scripted_geography = scripted_geography:roman_borders_geography
+			}
+			value = rgb { 128 0 128 }
+		}
+		else_if = {
+			limit = {
+				is_land = yes
+				is_required_for_formable = formable_country:ROM_f
+			}
+			value = rgb { 255 190 0 }
+		}
+		else = {
+			value = define:NMapColors|TRANSPARENT_COLOR
+		}
+	}
+
+	secondary_map_color = {
+		if = {
+			limit = {
+				is_land = yes
+				is_in_scripted_geography = scripted_geography:roman_borders_geography
+				is_required_for_formable = formable_country:ROM_f
+			}
+			value = rgb { 255 190 0 }
+		}
+	}
+
+	legend_key = { desc = "roman_borders_cb_only_legend" color = rgb { 128 0 128 } }
+	legend_key = { desc = "roman_borders_formation_only_legend" color = rgb { 255 190 0 } }
+	legend_key = { desc = "roman_borders_overlap_legend" color = rgb { 128 0 128 } }
+
+	tooltip_key = {
+		if = {
+			limit = { is_land = no }
+			value = MAPMODE_ROMAN_BORDERS_TT_WATER
+		}
+		else_if = {
+			limit = {
+				is_in_scripted_geography = scripted_geography:roman_borders_geography
+				is_required_for_formable = formable_country:ROM_f
+			}
+			value = MAPMODE_ROMAN_BORDERS_TT_OVERLAP
+		}
+		else_if = {
+			limit = {
+				is_in_scripted_geography = scripted_geography:roman_borders_geography
+			}
+			value = MAPMODE_ROMAN_BORDERS_TT_CB_ONLY
+		}
+		else_if = {
+			limit = {
+				is_required_for_formable = formable_country:ROM_f
+			}
+			value = MAPMODE_ROMAN_BORDERS_TT_FORMATION_ONLY
+		}
+		else = {
+			value = MAPMODE_ROMAN_BORDERS_TT_OUTSIDE
+		}
+	}
+
+	small_map_names = location
+	medium_map_names = region
+	large_map_names = region
+	small_tooltip_context = location
+	medium_tooltip_context = location
+	large_tooltip_context = location
+
+	fill_in_impassable = no
+	enable_snow = no
+	flatmap_behaviour = always
+	use_fow = no
+	allow_allocate_hotkey = yes
+	category = geography
+	index = 1
+
+	map_markers = { all = no }
+
+	gradient_parameters = {
+		zoom_step = 2
+		gradient_alpha_inside = 1
+		gradient_alpha_outside = 1
+		gradient_width = 0.25
+		gradient_color_mult = 0.9
+		edge_width = 0
+		edge_sharpness = 0.01
+		edge_alpha = 0
+		edge_color_mult = 0
+		before_lighting_blend = 0.5
+		after_lighting_blend = 0.5
+	}
+}

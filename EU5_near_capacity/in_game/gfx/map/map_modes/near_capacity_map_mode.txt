@@ -1,0 +1,205 @@
+﻿# Colors only the viewing country's locations at or above 80% of their
+# population capacity. The scale runs from light green at 80% through green,
+# yellow, and red to black at 100% and above.
+
+near_capacity = {
+	map_color = {
+		if = {
+			limit = {
+				is_land = yes
+				owner ?= scope:actor
+				location_population_percentage >= 0.8
+			}
+			if = {
+				limit = { location_population_percentage < 0.85 }
+				lerp = {
+					min_color = define:NMapColors|MAP_COLOR_MAX
+					max_color = define:NMapColors|MAP_COLOR_HIGH
+					factor = {
+						value = location_population_percentage
+						subtract = 0.8
+						divide = 0.05
+						max = 1
+						min = 0
+					}
+				}
+			}
+			else_if = {
+				limit = { location_population_percentage < 0.9 }
+				lerp = {
+					min_color = define:NMapColors|MAP_COLOR_HIGH
+					max_color = define:NMapColors|MAP_COLOR_MID
+					factor = {
+						value = location_population_percentage
+						subtract = 0.85
+						divide = 0.05
+						max = 1
+						min = 0
+					}
+				}
+			}
+			else_if = {
+				limit = { location_population_percentage < 0.95 }
+				lerp = {
+					min_color = define:NMapColors|MAP_COLOR_MID
+					max_color = define:NMapColors|MAP_COLOR_LOW
+					factor = {
+						value = location_population_percentage
+						subtract = 0.9
+						divide = 0.05
+						max = 1
+						min = 0
+					}
+				}
+			}
+			else_if = {
+				limit = { location_population_percentage < 1 }
+				lerp = {
+					min_color = define:NMapColors|MAP_COLOR_LOW
+					max_color = define:NMapColors|MAP_COLOR_MIN
+					factor = {
+						value = location_population_percentage
+						subtract = 0.95
+						divide = 0.05
+						max = 1
+						min = 0
+					}
+				}
+			}
+			else = {
+				value = define:NMapColors|MAP_COLOR_MIN
+			}
+		}
+		else = {
+			value = define:NMapColors|TRANSPARENT_COLOR
+		}
+	}
+
+	# Match Potential Cities' next-rank construction detection. Only qualifying
+	# locations at or above 80% capacity receive the royal-blue stripes.
+	secondary_map_color = {
+		if = {
+			limit = {
+				is_land = yes
+				owner ?= scope:actor
+				location_population_percentage >= 0.8
+				location_rank ?= location_rank:rural_settlement
+				modifier:cannot_upgrade_location = no
+				num_civil_constructions > 0
+				NOT = { can_become_rank = location_rank:town }
+			}
+			value = rgb { 45 105 255 }
+		}
+		else_if = {
+			limit = {
+				is_land = yes
+				owner ?= scope:actor
+				location_population_percentage >= 0.8
+				location_rank ?= location_rank:town
+				modifier:cannot_upgrade_location = no
+				num_civil_constructions > 0
+				NOT = { can_become_rank = location_rank:city }
+			}
+			value = rgb { 45 105 255 }
+		}
+	}
+
+	legend_key = { desc = "near_capacity_eighty_legend" color = define:NMapColors|MAP_COLOR_MAX }
+	legend_key = { desc = "near_capacity_eighty_five_legend" color = define:NMapColors|MAP_COLOR_HIGH }
+	legend_key = { desc = "near_capacity_ninety_legend" color = define:NMapColors|MAP_COLOR_MID }
+	legend_key = { desc = "near_capacity_ninety_five_legend" color = define:NMapColors|MAP_COLOR_LOW }
+	legend_key = { desc = "near_capacity_full_legend" color = define:NMapColors|MAP_COLOR_MIN }
+	legend_key = { desc = "near_capacity_upgrading_legend" color = rgb { 45 105 255 } }
+
+	tooltip_key = {
+		if = {
+			limit = { is_land = no }
+			value = MAPMODE_NEAR_CAPACITY_TT_WATER
+		}
+		else_if = {
+			limit = {
+				owner ?= scope:actor
+				location_population_percentage >= 0.8
+				location_rank ?= location_rank:rural_settlement
+				modifier:cannot_upgrade_location = no
+				num_civil_constructions > 0
+				NOT = { can_become_rank = location_rank:town }
+			}
+			value = MAPMODE_NEAR_CAPACITY_TT_RURAL_UPGRADING
+		}
+		else_if = {
+			limit = {
+				owner ?= scope:actor
+				location_population_percentage >= 0.8
+				location_rank ?= location_rank:town
+				modifier:cannot_upgrade_location = no
+				num_civil_constructions > 0
+				NOT = { can_become_rank = location_rank:city }
+			}
+			value = MAPMODE_NEAR_CAPACITY_TT_TOWN_UPGRADING
+		}
+		else_if = {
+			limit = { owner ?= scope:actor }
+			value = MAPMODE_NEAR_CAPACITY_TT_OWNED
+		}
+		else = {
+			value = MAPMODE_NEAR_CAPACITY_TT_NOT_OWNED
+		}
+	}
+
+	# Match the Raw Materials and Potential Cities map modes at close and medium
+	# zoom so each location's underlying RGO remains visible over the colors.
+	small_map_names = raw_material
+	medium_map_names = raw_material
+	large_map_names = country
+	small_tooltip_context = location
+	medium_tooltip_context = location
+	large_tooltip_context = location
+
+	fill_in_impassable = no
+	enable_snow = no
+	flatmap_behaviour = always
+	use_fow = no
+	allow_allocate_hotkey = yes
+	category = population
+	index = 0
+
+	map_markers = {
+		fort_marker = no
+		port_marker = no
+		unit_marker = no
+		combat_marker = no
+		combat_imminent_marker = no
+		supply_depot_marker = no
+		market_marker = no
+		toll_marker = no
+		dynasty_marker = no
+		raw_goods_marker = yes
+	}
+
+	gradient_parameters = {
+		zoom_step = 2
+		gradient_alpha_inside = 1
+		gradient_alpha_outside = 1
+		gradient_width = 0.25
+		gradient_color_mult = 0.9
+		edge_width = 0
+		edge_sharpness = 0.01
+		edge_alpha = 0
+		edge_color_mult = 0
+		before_lighting_blend = 0.5
+		after_lighting_blend = 0.5
+	}
+
+	color_refresh_counters = {
+		LocationDevelopmentChanged
+		LocationPopulationChanged
+		Month
+		TopographyVegetationDatabaseUpdate
+	}
+	color_and_names_refresh_counters = {
+		LocationOwnerChanged
+		CountryStatus
+	}
+	refresh_colors_on_selection_change = yes
+}

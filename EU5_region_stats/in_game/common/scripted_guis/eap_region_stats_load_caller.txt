@@ -1,0 +1,24 @@
+﻿# Lifecycle pattern adapted from Community Mod Framework under the ISC license.
+# See LICENSES/CMF-ISC.txt.
+#
+# on_game_start sets eap_region_stats_pending_new_game before the country UI is
+# created. Its presence identifies a new game; its absence identifies a save
+# load. Only the host dispatches the callback in multiplayer.
+
+eap_region_stats_load_caller = {
+	saved_scopes = { eap_region_stats_is_host_client }
+	effect = {
+		if = {
+			limit = { scope:eap_region_stats_is_host_client = yes }
+			if = {
+				limit = { has_global_variable = eap_region_stats_pending_new_game }
+				remove_global_variable = eap_region_stats_pending_new_game
+			}
+			else = {
+				trigger_event_silently = {
+					on_action = eap_region_stats_on_game_load
+				}
+			}
+		}
+	}
+}

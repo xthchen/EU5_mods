@@ -1,0 +1,16 @@
+﻿l_english:
+ mapmode_near_capacity_name: "Near Capacity"
+ MAPMODE_NEAR_CAPACITY: "#T $mapmode_near_capacity_name$#!\nShows locations that have a population exceeding 80% of its population capacity."
+
+ near_capacity_eighty_legend: "80% capacity"
+ near_capacity_eighty_five_legend: "85% capacity"
+ near_capacity_ninety_legend: "90% capacity"
+ near_capacity_ninety_five_legend: "95% capacity"
+ near_capacity_full_legend: "100% capacity or higher"
+ near_capacity_upgrading_legend: "Upgrading to the next location rank (striped)"
+
+ MAPMODE_NEAR_CAPACITY_TT_OWNED: "#T [ROOT.GetLocation.GetName]#!\nThe population at this location is at #V [ROOT.GetLocation.MakeScope.ScriptValue('near_capacity_location_population_percentage')|%0]#! of its [population_capacity|e]."
+ MAPMODE_NEAR_CAPACITY_TT_RURAL_UPGRADING: "#T [ROOT.GetLocation.GetName]#!\nThe population at this location is at #V [ROOT.GetLocation.MakeScope.ScriptValue('near_capacity_location_population_percentage')|%0]#! of its [population_capacity|e]. This rural settlement is being upgraded into a town."
+ MAPMODE_NEAR_CAPACITY_TT_TOWN_UPGRADING: "#T [ROOT.GetLocation.GetName]#!\nThe population at this location is at #V [ROOT.GetLocation.MakeScope.ScriptValue('near_capacity_location_population_percentage')|%0]#! of its [population_capacity|e]. This town is being upgraded into a city."
+ MAPMODE_NEAR_CAPACITY_TT_NOT_OWNED: "#T [ROOT.GetLocation.GetName]#!\nThis location is not owned by your country."
+ MAPMODE_NEAR_CAPACITY_TT_WATER: "This is a sea zone."

@@ -1,0 +1,19 @@
+{
+	"name": "Near Capacity",
+	"id": "hchen.near_capacity",
+	"game_id": "eu5",
+	"version": "1.0.4",
+	"supported_game_version": "1.3.*",
+	"short_description": "Adds a Population map mode that colors your locations from 80% population capacity through overcapacity.",
+	"tags": [
+		"Map",
+		"User Interface",
+		"Utilities"
+	],
+	"relationships": [],
+	"thumbnail": "thumbnail.png",
+	"picture": "thumbnail.png",
+	"game_custom_data": {
+		"multiplayer_synchronized": false
+	}
+}
