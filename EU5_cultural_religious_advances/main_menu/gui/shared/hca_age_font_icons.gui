@@ -1,0 +1,59 @@
+﻿texticon = {
+    icon = hca_age_1
+    iconsize = {
+        texture = "gfx/interface/icons/age/age_1_traditions.dds"
+        size = { 32 32 }
+        offset = { 0 5 }
+        fontsize = 20
+    }
+}
+
+texticon = {
+    icon = hca_age_2
+    iconsize = {
+        texture = "gfx/interface/icons/age/age_2_renaissance.dds"
+        size = { 32 32 }
+        offset = { 0 5 }
+        fontsize = 20
+    }
+}
+
+texticon = {
+    icon = hca_age_3
+    iconsize = {
+        texture = "gfx/interface/icons/age/age_3_discovery.dds"
+        size = { 32 32 }
+        offset = { 0 5 }
+        fontsize = 20
+    }
+}
+
+texticon = {
+    icon = hca_age_4
+    iconsize = {
+        texture = "gfx/interface/icons/age/age_4_reformation.dds"
+        size = { 32 32 }
+        offset = { 0 5 }
+        fontsize = 20
+    }
+}
+
+texticon = {
+    icon = hca_age_5
+    iconsize = {
+        texture = "gfx/interface/icons/age/age_5_absolutism.dds"
+        size = { 32 32 }
+        offset = { 0 5 }
+        fontsize = 20
+    }
+}
+
+texticon = {
+    icon = hca_age_6
+    iconsize = {
+        texture = "gfx/interface/icons/age/age_6_revolutions.dds"
+        size = { 32 32 }
+        offset = { 0 5 }
+        fontsize = 20
+    }
+}

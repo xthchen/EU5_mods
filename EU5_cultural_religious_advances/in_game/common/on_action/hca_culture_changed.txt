@@ -1,0 +1,21 @@
+# The Merge Culture Group cabinet action changes the country's culture when
+# its on_fully_activated effect completes. Preserve the pre-merge culture on
+# the resulting culture so the GUI can reuse its prebuilt advance list.
+on_culture_changed = {
+	effect = {
+		if = {
+			limit = {
+				culture = {
+					is_merged_culture_group = yes
+					NOT = { has_variable = hca_original_culture }
+				}
+			}
+			culture = {
+				set_variable = {
+					name = hca_original_culture
+					value = scope:old_culture
+				}
+			}
+		}
+	}
+}
