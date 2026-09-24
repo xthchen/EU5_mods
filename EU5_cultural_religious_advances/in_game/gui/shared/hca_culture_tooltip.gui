@@ -1,0 +1,60 @@
+template hca_scrollable_culture_list_tooltip {
+	ContextualTooltipType = {
+		blockoverride "title_icon" {
+			icon = {
+				texture = "gfx/interface/icons/flat_icons/culture/culture.dds"
+				using = tooltip_title_icon_size
+			}
+		}
+
+		blockoverride "title_text" {
+			text = "[Culture.GetNameWithNoTooltip]"
+		}
+
+		blockoverride "concept_link" {
+			text = [culture|E]
+		}
+
+		blockoverride "description_text" {
+			text = "[Culture.GetTooltip]"
+		}
+
+		blockoverride "script_text" {
+			debug_text = "[Culture.GetDebugText]"
+		}
+
+		blockoverride "extra_tooltip_content" {}
+
+		blockoverride "tooltip_content" {
+			TooltipScrolledContentSection = {
+				blockoverride "block_scrollarea" { maximumsize = { -1 520 } }
+				blockoverride "scrollarea_content" {
+					TooltipContentSection = {
+						set_parent_dimension_to_minimum = height
+						TooltipDebugTextBlock = {
+							blockoverride "text" {
+								debug_text = "[Culture.GetDebugText]"
+							}
+						}
+
+						TooltipContentSection = {
+							using = culture_tooltip_content
+							blockoverride "culture_tooltip_player_status" {
+								TooltipFlavorTextBlock = {
+									visible = "[ImportantCultureItem.IsPrimary]"
+									blockoverride "text" { text = "CULTURE_IS_PRIMARY_TT" }
+								}
+								TooltipStringPairList = {
+									visible = "[And(Not(ImportantCultureItem.IsPrimary), Not(ImportantCultureItem.IsForeign))]"
+									textcontext = "[ImportantCultureItem.GetAcceptedCultureDescription]"
+								}
+							}
+						}
+
+						block "culture_list_tooltip_content_extra" {}
+					}
+				}
+			}
+		}
+	}
+}

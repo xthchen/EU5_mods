@@ -5,7 +5,8 @@ Currently, the only way to check them is when you select countries at the start 
 
 ## Features
 - This mod provides such detail when you go to your culture/religion tooltip under the culture/religion breakdown tab. This includes all culture/religion, within/outside of your country. 
-- The embedded tooltip is also present for each of the advances so you can see what each of them do. The screenshots should give you quite a good idea.
+- The embedded tooltip is also present for each of the advances so you can see what each of them do. The screenshots should give you quite a good idea. Clicking the ones not currently in your tech tree won't bring you to it though.
+- Note that some tooltips (especially religious ones like catholic) can become too long, it's scrollable.
 - Note that the tooltip only shows unique advances available to this culture/religion, without any further requirements. Specific unique advances that require you to be of specific culture AND religion for example, will not be shown.
 - The current tag you are playing as is also not considered. Specific advances requiring a specific culture AND tag for example, will also not be shown, even if you're playing as the said tag.
 

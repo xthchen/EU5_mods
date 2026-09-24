@@ -96,4 +96,34 @@ def write_gui(game, catalogue):
 \t\t\t}''')
     insertion = "\n".join(sections) + "\n\n"
     GUI.parent.mkdir(parents=True, exist_ok=True)
-    GUI.write_text(source.replace(marker, insertion + marker), encoding="utf-8-sig")
+    source = source.replace(marker, insertion + marker)
+    GUI.write_text(wrap_religion_body(source), encoding="utf-8-sig")
+
+
+def wrap_religion_body(source):
+    """Keep the title fixed and scroll the complete religion tooltip body."""
+    marker = '\t\tblockoverride "tooltip_content" {'
+    start = source.index(marker)
+    opening = source.index("{", start)
+    depth = 1
+    end = opening + 1
+    while depth:
+        if source[end] == "{":
+            depth += 1
+        elif source[end] == "}":
+            depth -= 1
+        end += 1
+    body = source[opening + 1:end - 1]
+    wrapped = (
+        marker + '\n\t\t\tTooltipScrolledContentSection = {'
+        '\n\t\t\t\tblockoverride "block_scrollarea" { maximumsize = { -1 520 } }'
+        '\n\t\t\t\tblockoverride "scrollarea_content" {'
+        '\n\t\t\t\t\tTooltipContentSection = {'
+        '\n\t\t\t\t\t\tset_parent_dimension_to_minimum = height'
+        + body +
+        '\n\t\t\t\t\t}'
+        '\n\t\t\t\t}'
+        '\n\t\t\t}'
+        '\n\t\t}'
+    )
+    return source[:start] + wrapped + source[end:]

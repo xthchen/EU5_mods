@@ -140,7 +140,7 @@ def make_gui(catalogue):
 \t\t\t\t\t\t\t\t\tusing = culture_list_tooltip
 \t\t\t\t\t\t\t\t}'''
     replacement = '''\t\t\t\t\t\t\t\ttooltipwidget = {
-\t\t\t\t\t\t\t\t\tusing = culture_list_tooltip
+\t\t\t\t\t\t\t\t\tusing = hca_scrollable_culture_list_tooltip
 \t\t\t\t\t\t\t\t\tblockoverride "culture_list_tooltip_content_extra" {''' + insertion + '''\t\t\t\t\t\t\t\t\t}
 \t\t\t\t\t\t\t\t}'''
     if vanilla.count(needle) != 1:

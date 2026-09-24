@@ -420,7 +420,7 @@
 								datacontext = "[ImportantCultureItem.GetCulture]"
 								visible = yes
 								tooltipwidget = {
-									using = culture_list_tooltip
+									using = hca_scrollable_culture_list_tooltip
 									blockoverride "culture_list_tooltip_content_extra" {
                                         TooltipListBase = {
                                             blockoverride "block_title" { text = "POSSIBLE_ADVANCES_FOR_FORMABLE" }

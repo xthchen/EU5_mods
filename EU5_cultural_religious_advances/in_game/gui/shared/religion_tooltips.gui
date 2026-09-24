@@ -13,6 +13,11 @@
 		}
 		
 		blockoverride "tooltip_content" {
+			TooltipScrolledContentSection = {
+				blockoverride "block_scrollarea" { maximumsize = { -1 520 } }
+				blockoverride "scrollarea_content" {
+					TooltipContentSection = {
+						set_parent_dimension_to_minimum = height
 			TooltipDebugTextBlock = {
 				blockoverride "text" {
 					debug_text = "[Religion.GetDebugText]"
@@ -1214,6 +1219,9 @@
 			TooltipFlavorTextBlock = {
 				blockoverride "text" {
 					text = "[Religion.GetFlavorText]"
+				}
+			}
+					}
 				}
 			}
 		}
